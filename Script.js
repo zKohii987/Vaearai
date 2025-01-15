@@ -118,7 +118,7 @@ scratchCanvas.addEventListener("touchend", checkScratchProgress);
 // Détermine un lot basé sur les probabilités
 function getReward() {
     const rewards = [
-        { text: "Pas de gain", chance: 50 }, // Pas de gain
+        { text: "Désolé, pas de gain cette fois !", chance: 50 }, // Pas de gain
         { text: "Billet VIP", chance: 30 },
         { text: "Réduction 10%", chance: 5 },
         { text: "Goodies Stylo", chance: 2 },
