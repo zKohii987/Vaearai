@@ -115,57 +115,29 @@ function checkScratchProgress() {
 scratchCanvas.addEventListener("mouseup", checkScratchProgress);
 scratchCanvas.addEventListener("touchend", checkScratchProgress);
 
-// Fonction pour mettre à jour les statistiques dans Firestore
-async function updateFirestore(lot) {
-    console.log("Tentative de mise à jour de Firestore pour le lot :", lot);
-    const lotRef = db.collection("lots").doc(lot); // Référence au document du lot
-
-    try {
-        const doc = await lotRef.get(); // Récupère le document du lot
-        console.log("Document récupéré :", doc.exists ? "existe" : "n'existe pas");
-
-        if (doc.exists) {
-            // Incrémente le compteur si le document existe
-            await lotRef.update({
-                count: firebase.firestore.FieldValue.increment(1),
-            });
-            console.log(`Mise à jour réussie pour le lot : ${lot}`);
-        } else {
-            // Crée un nouveau document si inexistant
-            await lotRef.set({ count: 1 });
-            console.log(`Document créé pour le lot : ${lot}`);
-        }
-    } catch (error) {
-        console.error("Erreur lors de la mise à jour dans Firestore :", error);
-    }
-}
-
 // Détermine un lot basé sur les probabilités
 function getReward() {
     const rewards = [
+        { text: "", chance: 50 }, // Pas de gain
         { text: "Billet VIP", chance: 30 },
         { text: "Réduction 10%", chance: 5 },
         { text: "Goodies Stylo", chance: 2 },
         { text: "Goodies Clés USB", chance: 6 },
         { text: "Goodies Stickers", chance: 2 },
         { text: "Goodies Vachette", chance: 5 },
-        { text: "Pas de gain", chance: 50 },
     ];
 
-    const totalChance = rewards.reduce((sum, reward) => sum + reward.chance, 0);
-    const random = Math.random() * totalChance;
+    const random = Math.random() * 100; // Génère un nombre aléatoire entre 0 et 100
     let cumulativeChance = 0;
 
     for (let reward of rewards) {
         cumulativeChance += reward.chance;
         if (random < cumulativeChance) {
-            console.log("Lot gagné :", reward.text);
-            updateFirestore(reward.text); // Mise à jour dans Firestore
             return reward.text;
         }
     }
 
-    return "Pas de gain"; // Par défaut, pas de gain
+    return ""; // Par défaut, pas de gain
 }
 
 // Fonction pour lancer des confettis
@@ -180,4 +152,20 @@ function launchConfetti() {
 // Affiche le texte sous la photo
 function displayReward(text) {
     // Efface la couche de grattage
-    scratchCtx.clearRect(0, 0,
+    scratchCtx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+    // Redessine l'image et l'espace texte
+    contentCtx.clearRect(0, 0, canvasWidth, totalHeight);
+    contentCtx.drawImage(backgroundImage, 0, 0, canvasWidth, canvasHeight);
+
+    // Affiche le texte en bas
+    contentCtx.fillStyle = "#000";
+    contentCtx.font = "22px Clear Sans";
+    contentCtx.textAlign = "center";
+    contentCtx.fillText(text || "Désolé, pas de gain cette fois !", canvasWidth / 2, totalHeight - 10);
+
+    // Lancer des confettis uniquement si un lot est gagné
+    if (text && text !== "") {
+        launchConfetti();
+    }
+}
