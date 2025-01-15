@@ -138,7 +138,7 @@ function getReward() {
         }
     }
 
-    return "Pas de gain"; // Par défaut, pas de gain
+    return "Désolé, pas de gain cette fois !"; // Par défaut, pas de gain
 }
 
 // Fonction pour mettre à jour les statistiques dans Firestore
@@ -187,7 +187,7 @@ function displayReward(text) {
     contentCtx.fillText(text || "Désolé, pas de gain cette fois !", canvasWidth / 2, totalHeight - 10);
 
     // Lancer des confettis uniquement si un lot est gagné
-    if (text && text !== "Pas de gain") {
+    if (text && text !== "Désolé, pas de gain cette fois !") {
         launchConfetti();
     }
 }
