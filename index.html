@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Grattage</title>
+    <!-- Lien vers le fichier CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Conteneur principal pour le jeu -->
+    <div class="scratch-container">
+        <!-- Canevas pour afficher le contenu à découvrir -->
+        <canvas id="contentCanvas"></canvas>
+        <!-- Canevas pour la couche de grattage -->
+        <canvas id="scratchCanvas"></canvas>
+    </div>
+
+    <!-- Message de chargement -->
+    <noscript>
+        <p>Veuillez activer JavaScript pour jouer au jeu de grattage.</p>
+    </noscript>
+
+    <!-- Bibliothèque pour les confettis -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- Script principal pour gérer le jeu -->
+    <script src="script.js"></script>
+
+    <!-- Suivi des ouvertures -->
+    <script>
+        // Vérifie le nombre d'ouvertures dans LocalStorage
+        if (!localStorage.getItem("siteLaunchCount")) {
+            localStorage.setItem("siteLaunchCount", 1);
+        } else {
+            let count = parseInt(localStorage.getItem("siteLaunchCount"));
+            localStorage.setItem("siteLaunchCount", count + 1);
+        }
+
+        // Affichez le compteur sur la page
+        const launchCount = localStorage.getItem("siteLaunchCount");
+        document.body.insertAdjacentHTML(
+            "beforeend",
+            `<div style="position:fixed; bottom:10px; right:10px; background:#333; color:#fff; padding:10px; border-radius:5px; z-index:1000;">
+                Nombre d'ouvertures (local) : ${launchCount}
+            </div>`
+        );
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+/* Style pour le fond de la page */
+body {
+    margin: 0;
+    height: 100vh;
+    background-image: url("gift-animation.gif"); /* Fond animé par défaut pour PC */
+    background-size: cover;         /* Adapte le GIF à la fenêtre sans déformer */
+    background-position: center;    /* Centre le GIF au milieu */
+    background-repeat: no-repeat;   /* Empêche la répétition */
+    background-color: #000;         /* Couleur de secours */
+    overflow: hidden;               /* Évite les barres de défilement */
+}
+
+/* Ajustement pour mobile */
+@media (max-width: 760px) {
+    body {
+        background-image: url("gift-animation-mobile.gif"); /* Fond animé pour mobile */
+        background-size: contain; /* Ajuste le GIF sans le déformer */
+    }
+}
+
+/* Conteneur principal */
+.container {
+    text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Texte de félicitations */
+h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Ajout d'une ombre pour la lisibilité */
+}
+
+/* Encadré pour le lot */
+.lot-container {
+    background-color: rgba(0, 0, 0, 0.7); /* Fond noir semi-transparent */
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid white; /* Bordure blanche */
+    color: #FFD700; /* Texte en doré */
+    font-size: 1.5rem;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Ombre portée */
+}
+
+/* Conteneur pour le jeu de grattage */
+.scratch-container {
+    position: absolute; /* Permet de centrer par rapport au body */
+    top: 50%; /* Place le haut du conteneur à 50% de la hauteur */
+    left: 50%; /* Place le côté gauche du conteneur à 50% de la largeur */
+    transform: translate(-50%, -50%); /* Centre réellement le conteneur */
+    width: 100%; /* Adapte à l'écran */
+    max-width: 400px; /* Largeur maximale */
+    height: 300px; /* Hauteur fixe, ajustable selon vos besoins */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    overflow: hidden; /* Empêche les débordements */
+    border: 2px solid #fff; /* Ajout d'une bordure (optionnel) */
+}
+
+/* Styles pour les canevas */
+canvas {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    pointer-events: auto;
+}
+
+#contentCanvas {
+    z-index: 1; /* Canevas d'arrière-plan */
+}
+
+#scratchCanvas {
+    z-index: 2; /* Canevas supérieur pour le grattage */
+    cursor: pointer; /* Change le curseur pour indiquer une interaction */
+}
+
+/* Style pour mobile */
+@media (max-width: 760px) {
+    .scratch-container {
+        height: 300px; /* Hauteur réduite pour les petits écrans */
+    }
+
+    h1 {
+        font-size: 2rem; /* Taille de texte réduite */
+    }
+
+    .lot-container {
+        font-size: 1.2rem; /* Texte plus petit pour mobile */
+    }
+}
