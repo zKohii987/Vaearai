@@ -118,7 +118,7 @@ scratchCanvas.addEventListener("touchend", checkScratchProgress);
 // Détermine un lot basé sur les probabilités
 function getReward() {
     const rewards = [
-        { text: "", chance: 50 }, // Pas de gain
+        { text: "Pas de gain", chance: 50 }, // Pas de gain
         { text: "Billet VIP", chance: 30 },
         { text: "Réduction 10%", chance: 5 },
         { text: "Goodies Stylo", chance: 2 },
@@ -133,11 +133,33 @@ function getReward() {
     for (let reward of rewards) {
         cumulativeChance += reward.chance;
         if (random < cumulativeChance) {
+            updateFirestore(reward.text); // Mise à jour dans Firestore
             return reward.text;
         }
     }
 
-    return ""; // Par défaut, pas de gain
+    return "Pas de gain"; // Par défaut, pas de gain
+}
+
+// Fonction pour mettre à jour les statistiques dans Firestore
+async function updateFirestore(lot) {
+    const lotRef = db.collection("lots").doc(lot);
+
+    try {
+        const doc = await lotRef.get();
+        if (doc.exists) {
+            // Incrémenter le compteur existant
+            await lotRef.update({
+                count: firebase.firestore.FieldValue.increment(1),
+            });
+        } else {
+            // Créer un nouveau document si inexistant
+            await lotRef.set({ count: 1 });
+        }
+        console.log(`${lot} mis à jour dans Firestore`);
+    } catch (error) {
+        console.error("Erreur lors de la mise à jour dans Firestore :", error);
+    }
 }
 
 // Fonction pour lancer des confettis
@@ -165,7 +187,7 @@ function displayReward(text) {
     contentCtx.fillText(text || "Désolé, pas de gain cette fois !", canvasWidth / 2, totalHeight - 10);
 
     // Lancer des confettis uniquement si un lot est gagné
-    if (text && text !== "") {
+    if (text && text !== "Pas de gain") {
         launchConfetti();
     }
 }
