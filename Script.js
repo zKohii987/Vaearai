@@ -36,7 +36,7 @@ window.addEventListener("beforeunload", (event) => {
 
 // Chargement de l'image de fond sur le calque de contenu
 const backgroundImage = new Image();
-backgroundImage.src = "your-lot-image.jpg"; // Remplacez par le chemin de votre image
+backgroundImage.src = "your-lot-image.jpg"; // Remplace par le chemin correct
 backgroundImage.onload = () => {
     // Dessine l'image de fond
     contentCtx.drawImage(backgroundImage, 0, 0, canvasWidth, canvasHeight);
