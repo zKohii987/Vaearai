@@ -16,23 +16,6 @@ contentCanvas.height = scratchCanvas.height = totalHeight;
 let determinedReward = null;
 let isScratchComplete = false; // Verrouillage une fois gratté
 
-// Suivi des ouvertures avec LocalStorage
-if (!localStorage.getItem("siteLaunchCount")) {
-    localStorage.setItem("siteLaunchCount", 1);
-} else {
-    let count = parseInt(localStorage.getItem("siteLaunchCount"));
-    localStorage.setItem("siteLaunchCount", count + 1);
-}
-console.log("Le site a été ouvert " + localStorage.getItem("siteLaunchCount") + " fois.");
-
-// Suivi des refreshs avec SessionStorage
-if (!sessionStorage.getItem("isRefreshed")) {
-    sessionStorage.setItem("isRefreshed", "true");
-    console.log("Lancement du site (pas un refresh).");
-} else {
-    console.log("Refresh détecté.");
-}
-
 // Empêcher le refresh avec F5, Ctrl+R, ou Cmd+R
 document.addEventListener("keydown", (e) => {
     if (
